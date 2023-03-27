@@ -14,7 +14,7 @@ PROVITA-AUTHENTICATION
     
 SECURE WEB PROGRAMMING
 
-1) XSS - Scripts can be added by user input in the Signup page. 
+1) XSS - Scripts can be added by user input in the 'Signup' page. 
 To prevent from XSS atacks, the profile page HTML code is sanetized with regular expression
 that transforms javascript code into string so the script code won't run.
     
@@ -25,6 +25,6 @@ that transforms javascript code into string so the script code won't run.
     Password: <script>alert(‘XSS’)</script>
     b) Go to the Profile page >> View Source Page >> Confirm the script is handled as string. The angle brackets are 
 
-2) SQL Injection - SQL injections can be added by user input in the Login and Buy pages. 
+2) SQL Injection - SQL injections can be added by user input in the 'Login' and 'Buy' pages. 
 To prevent from SQL injection attacks, all queries to the database are done with prepared statements. 
 Therefore, incorrect parameters or arbitrary SQL code would not work to retrieve data from the database as the queries will return no results.

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProVita</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
 
 </head>
 <body>
@@ -17,60 +17,40 @@
                                  alt="Logo - ProVita" width="100" height="100"></a>
             </div>
             <div class="navbar">
-                <a class="nav-item nav-link" id="home" href="/"> Homepage</a>
+                <a class="nav-item nav-link" id="homepage" href="/"> Homepage</a>
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             </div>
         </div>
     </nav>
 </header>
 
-<section id="search" class="section">
-    <header class="imageheader"></header>
+<section id="addproduct" class="section">
     <div class="container">
-        <h2 class="headline"> Admin Search </h2>
+        <h2 class="headline">Add Product</h2>
 
-        <form action="searchAction" method="get">
-            <label class="card-title">Search your product</label>
-            <input type="search" name="searchString" id="searchString">
-            <input type="submit" value="Search">
+        <form action="/addProduct" method="post" enctype="multipart/form-data">
+            <label>Product ID (Must be unique) </label> <input type="text" name="product_id" id="product_id"><br/>
+            <label>Product Name (separate words with a dash '-' )</label> <input type="text" name="product_name" id="product_name"><br/>
+            <label>Upload an image</label> <input type="file" name="file" id="file"><br/>
+            <label>Set price</label> <input type="text" name="price" id="price"><br/>
+            <input type="submit" value="Submit" id="submit">
+            <input type="reset" value="Reset" id="reset">
         </form>
     </div>
 </section>
-<br/>
-<br/>
 
-<section id="products" class="section">
-    <div class="container">
-        <h2 class="headline">Select Products</h2>
-        <p>
-            <span id="size">Items in Cart: {6}</span>
-        </p>
-    </div>
-
-    <table style="margin-left: 20px;">
-        <thead>
-        <tr>
-            <th>Product</th>
-            <th>Image</th>
-            <th>Price</th>
-            <th></th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for row in products %}
-        <tr>
-            <td align="center">{{ row[0] }}</td>
-            <td align="center"><img src="{{ row[1] }}" alt="{{ row[1] }}" width="200"></td>
-            <td align="center"> ...</td>
-            <td>
-                <button>Add to Cart</button>
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</section>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
     <footer>
     <div class="bottom-bar">

@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, url_for, flash, session
-from werkzeug.utils import redirect
+from flask import Flask, render_template, request, url_for, flash, session, jsonify
+from werkzeug.utils import redirect, secure_filename
 import sqlite3
 from sqlite3 import Error
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user
-
+import adminFunctions
 from user import User
 
 db_file = "mySQLite.db"
@@ -23,7 +23,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'loginAction'
 
 
-## Define a userloader function
+## Define an userloader function
 @login_manager.user_loader
 def load_user(username):
     return User(username)
@@ -99,6 +99,7 @@ def signupAction():
         ## if this works, this means the user have been added successfully
         ## Therefore, we need to send them to the login page
     except Error as e:
+        print(e)
         ## if the user is not added, we will get an exception which will be caught here
         ## So we need to say what to do if the user signup has failed and send them to the signup page again
         flash("Failed to signup. Try again!", category='error')
@@ -161,6 +162,7 @@ def loginAction():
             flash("Your username is incorrect! Try to login again.", category='error')
             return redirect(url_for('login'))
     except Error as e:
+        print(e)
         ## if there was an error in the login, we will get an exception which will be caught here
         ## So we need to send the user to the login page again
         flash("Failled to login. Try again!", category='error')
@@ -277,32 +279,76 @@ def searchAction():
             conn.close()
 
 
-@app.route('/addToCart/<int:product_id>/<int:quantity>')
-def addToCart(product_id, quantity):
-    conn = sqlite3.connect(db_file)
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT product_id, product_name, image_path, price FROM products WHERE product_id = ?", product_id)
-    product = cursor.fetchall()
-    print(product)
-    # product = get_product_by_id(product_id)  # retrieve product from the database using the product_id
-    if product is not None:
+@app.route('/addToCart/<product_name>/<int:quantity>/<total_price>')
+def addToCart(product_name, quantity, total_price):
+    if product_name is not None:
         item = {
-            'product_id': product_id,
-            'name': product[0][1],
-            'image_path': product[0][2],
-            'price': product[0][3],
-            'quantity': quantity
+            "name": product_name,
+            "quantity": quantity,
+            'total_price': total_price
         }
+
+        # Add the product and quantity to the cart
+        if product_name in item:
+            item[product_name] += quantity
+        else:
+            item[product_name] = quantity
+
+        # Add the product and quantity to the cart
         cart = session.get('cart', [])  # get the current cart from the session, or an empty list if it doesn't exist
         cart.append(item)  # add the new item to the cart
         session['cart'] = cart  # update the cart in the session
-        flash(f"{quantity}x {product[0][1]} added to cart!", category='success')
-        return render_template("cart.html", cart=session['cart'])
+
+        # Calculate the total price of all items in the cart
+        total_price = sum(item.get('price', 0) * item['quantity'] for item in cart)
+
+        # Return the updated cart information in JSON format
+        return jsonify({
+            'cart_count': len(cart),
+            'total_price': total_price
+        })
+
     else:
-        flash(f"Could not find product with ID {product_id}", category='error')
-    if conn:
-        conn.close()
+        flash(f"Could not find product", category='error')
+
+
+# @app.route('/viewCart/<str:product_name>/<int:quantity>')
+# def viewCart(product_name, quantity):
+#     conn = sqlite3.connect(db_file)
+#     cursor = conn.cursor()
+#     cursor.execute(
+#         "SELECT product_id, product_name, image_path, price FROM products WHERE product_name = ?", product_name)
+#     product = cursor.fetchall()
+#     print(product)
+#
+#     if product is not None:
+#         item = {
+#             'product_id': product[0][0],
+#             'name': product[0][1],
+#             'image_path': product[0][2],
+#             'price': product[0][3],
+#             'quantity': quantity
+#         }
+#         cart = session.get('cart', [])  # get the current cart from the session, or an empty list if it doesn't exist
+#         cart.append(item)  # add the new item to the cart
+#         session['cart'] = cart  # update the cart in the session
+#         flash(f"{quantity}x {product[0][1]} added to cart!", category='success')
+#         return render_template("cart.html", cart=session['cart'])
+#     else:
+#         flash(f"Could not find product", category='error')
+#     if conn:
+#         conn.close()
+
+@app.route('/admin', methods=['POST'])
+def admin():
+    if current_user.username == 'admin':
+        return render_template("admin.html")
+
+    else:
+        return "Error: You cannot access this page"
+
+    # adminFunctions.upload_file()
+    # adminFunctions.addProduct()
 
 
 @app.route('/logout')
@@ -310,18 +356,6 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
     return render_template("logout.html")
-
-
-@app.route('/admin')
-def admin():
-    if not current_user.is_authenticated:
-        flash("You need to login to access the profile page.", category='error')
-        return redirect(url_for('login'))
-
-    if current_user.username == 'admin':
-        return render_template("admin.html")
-    else:
-        return "Error: You cannot access this page"
 
 
 if __name__ == '__main__':

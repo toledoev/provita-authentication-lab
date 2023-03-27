@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProVita</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
 
 
 </head>
@@ -50,13 +50,20 @@
 <br/>
 <br/>
 
+
+<section id="addToCart" class="section">
+<div align="right"  style="margin-right: 10px;">
+    <img src='static/images/cart-shopping-solid.svg'
+                                 alt="Cart" width="30" height="30"/>
+    <p>Cart: <span id="cart-count">0</span> item(s), € <span id="cart-total">0.00</span> </p>
+    <button onclick="window.location.href='/cart'">Go to checkout</button>
+</div>
+
 <section id="products" class="section">
     <div class="container">
         <h2 class="headline">Select Products</h2>
-        <p>
-            <span id="size">Items in Cart: {6}</span>
-        </p>
     </div>
+
 
     <table style="margin-left: 20px;">
         <thead>
@@ -74,16 +81,16 @@
         <tr>
             <td>{{ row[1] }}</td>
             <td><img src="{{ row[2] }}" alt="{{ row[2] }}" width="150"></td>
-            <td> €{{ row[3] }}</td>
+            <td data-price="{{ row[3] }}">€{{ row[3] }}</td>
             <td>
                 <select name="quantity">
-					<option value=1> 1</option>
-					<option value=2> 2</option>
-                    <option value=3> 3</option>
-                    <option value=4> 4</option>
+					<option value="1"> 1</option>
+					<option value="2"> 2</option>
+                    <option value="3"> 3</option>
+                    <option value="4"> 4</option>
                 </select>
             <td>
-                <button onclick="addToCart({{row[0]}}, document.getElementsByName('quantity')[{{loop.index0}}].value)"
+                <button onclick="addToCart('{{row[1]}}')"
                         type="button">Add to Cart</button>
             </td>
         </tr>
@@ -93,10 +100,39 @@
 </section>
 
 <script>
-    function addToCart(product_id, quantity) {
-        window.location.href = '/cart/' + product_id + '/' + quantity;
-    }
+function addToCart(product_name) {
+  // Get the selected quantity from the dropdown menu
+  var quantity = document.getElementsByName('quantity')[0].value;
+
+  // Calculate the total price for the selected quantity
+  var price = parseFloat(event.target.parentNode.parentNode.querySelector('[data-price]').dataset.price);
+  var total_price = (price * quantity).toFixed(2);
+
+  // Make a POST request to the Flask route with the product name, quantity, and total price as parameters
+  var url = '/addToCart';
+  var params = {
+    'product_name': product_name,
+    'quantity': quantity,
+    'total_price': total_price
+  };
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(params)
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Update the cart count and total price on the page
+    document.getElementById('cart-count').textContent = data.cart_count;
+    document.getElementById('cart-total').textContent = data.cart_total;
+  })
+  .catch(error => console.error(error));
+}
+
 </script>
+
 <footer>
     <div class="container">
         <div class="row">

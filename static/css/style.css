@@ -21,6 +21,14 @@ body {
 	font-weight: 300
 }
 
+.hero-btnn {
+  margin: center;
+  margin-bottom: 50px;
+  margin-top: 0;
+  padding: 25px 29px;
+  text-align: left;
+}
+
 .container {
 	width: 80%;
 	max-width: 1200px;
@@ -516,3 +524,4 @@ td:last-child,
 th:last-child {
   border-right: none;
 }
+

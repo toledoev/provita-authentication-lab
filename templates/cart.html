@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProVita</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
+
+
+</head>
+<body>
+
+<header id="home" class="header">
+    <nav class="nav" role="navigation">
+        <div class="container nav-elements">
+            <div class="branding">
+                <a href="/"><img src='static/images/provita_logo.png'
+                                 alt="Logo - ProVita" width="100" height="100"></a>
+
+            </div>
+            <div class="navbar">
+                {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" id="homepage" href="/"> Homepage</a>
+                <a class="nav-item nav-link" id="profile" href="/profile">My Profile</a>
+                <a class="nav-item nav-link" href="/orders" id="orders">My Orders</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                <a class="nav-item nav-link" id="admin" href="/admin">Admin Only</a>
+                {% else %}
+                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                <a class="nav-item nav-link" id="signup" href="/signup">Sign Up</a>
+                <a href="http://www.linkedin.com">LinkedIn</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section id="cart" class="section">
+    <header class="imageheader"></header>
+    <div class="container">
+        <h2 class="headline">Complete Your Order</h2>
+
+
+{{ cart }}
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>About ProVita</h3>
+                <p>ProVita provides high-quality healthy products for active lifestyles. Our products are made with
+                    natural ingredients and are designed to help you stay fit and healthy.</p>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <small>&copy; 2023 ProVita. All Rights Reserved.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProVita</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+
+<header id="home" class="header">
+    <nav class="nav" role="navigation">
+        <div class="container nav-elements">
+            <div class="branding">
+                <a href="/"><img src='static/images/provita_logo.png'
+                                 alt="Logo - ProVita" width="100" height="100"></a>
+            </div>
+
+
+            <div class="navbar">
+                {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" id="profile" href="/profile">My Profile</a>
+                <a class="nav-item nav-link" href="/orders" id="orders">My Orders</a>
+                <a class="nav-item nav-link" id="search" href="/search"> Buy </a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                <a class="nav-item nav-link" id="admin" href="/admin">Admin Only</a>
+                {% else %}
+                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                <a class="nav-item nav-link" id="signup" href="/signup">Sign Up</a>
+                <a href="http://www.linkedin.com">LinkedIn</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <section id="products" class="section">
+        <div class="container">
+
+            <h1 class="headline">Welcome to ProVita website!</h1>
+            <p>We offer three fantastic products tailored to meet the needs of active individuals who love to hit
+                the gym and stay fit. </p>
+            <p>So whether you're a serious athlete or just someone who loves to stay active, our mineral water, protein
+                bars, and vitamin complex are the perfect addition to your daily routine. </p>
+            <p>All of our products are made with natural ingredients and are free from harmful additives and
+                preservatives.</p>
+
+
+            <ul class="product-list">
+                <em>Vitamin Complex</em>
+                <p>Our high-quality vitamin complexes are designed to help you maintain optimal health and wellness.
+                    It's packed with <em>essential vitamins and minerals</em> that support a healthy immune system, strong bones and
+                    muscles, and improved cognitive function.</p>
+
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-a.jpg" alt="Vitamin A - Product Photo">
+                    <h2 class="product-name">Vitamin A</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-bcomplex.jpg" alt="B Complex - Product Photo">
+                    <h2 class="product-name">Vitamin-B Complex</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-c.jpg" alt="Vitamin C - Product Photo">
+                    <h2 class="product-name">Vitamin C</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-calcium.jpg"
+                         alt="Vitamin Calcium - Product Photo">
+                    <h2 class="product-name">Calcium Vitamin</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-d.jpg" alt="Vitamin D - Product Photo">
+                    <h2 class="product-name">Vitamin D</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-flaxseed-oil.jpg"
+                         alt="Flaxseed Oil - Product Photo">
+                    <h2 class="product-name">Flaxseed Oil Vitamin</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-iron.jpg" alt="Vitamin Iron - Product Photo">
+                    <h2 class="product-name">Iron Vitamin</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-magnesium.jpg"
+                         alt="Vitamin Magnesium - Product Photo">
+                    <h2 class="product-name">Magnesium Vitamin</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/vitamin-multi.jpg"
+                         alt="Vitamin Multivitamin - Product Photo">
+                    <h2 class="product-name">Multi-vitamin</h2>
+                </li>
+                <li>
+                    <em>Protein Bars</em>
+                    <p>Our protein bars are made with <em>all-natural ingredients</em> to provide you with a delicious and
+                        nutritious
+                        snack that is perfect for before or after your workout. They're high in protein and low in
+                        sugar,
+                        making them an excellent choice for muscle recovery and energy replenishment.</p>
+                </li>
+
+                <li class="product-item">
+                    <img class="product-image" src="static/images/proteinbar-peanutbutter.jpg"
+                         alt="Vitamin Protein Bar Peanut Butter - Product Photo">
+                    <h2 class="product-name">Peanut Butter Protein Bar</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/proteinbar-chocolate.jpg"
+                         alt="Protein Bar Chocolate - Product Photo">
+                    <h2 class="product-name">Chocolate Protein Bar</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/proteinbar-lemon.jpg"
+                         alt="Protein Bar Lemon - Product Photo">
+                    <h2 class="product-name">Lemon Protein Bar</h2>
+                </li>
+                <li>
+                    <em>Mineral Water </em>
+                    <p>Our premium mineral waters are sourced from natural springs and bottled at the source to ensure
+                        maximum
+                        purity and freshness. It's rich in essential minerals that are vital for <em>maintaining optimal
+                            health and hydration levels</em> during your workout routine.</p>
+
+                </li>
+
+
+                <li class="product-item">
+                    <img class="product-image" src="static/images/mineralwater-strawberry.jpg"
+                         alt="Mineral Water Strawberry - Product Photo">
+                    <h2 class="product-name">Strawberry Mineral Water</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/mineralwater-blueberry.jpg"
+                         alt="Blueberry Mineral Water - Product Photo">
+                    <h2 class="product-name">Blueberry Mineral Water</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/mineralwater-lemonlime.jpg"
+                         alt="Mineral Water Lemon Lime - Product Photo">
+                    <h2 class="product-name">Lemon Lime Mineral Water</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/mineralwater-orange.jpg"
+                         alt="Mineral Water Orange - Product Photo">
+                    <h2 class="product-name">Orange Mineral Water</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/mineralwater-peach.jpg"
+                         alt="Mineral Water Peach - Product Photo">
+                    <h2 class="product-name">Peach Mineral Water</h2>
+                </li>
+                <li class="product-item">
+                    <img class="product-image" src="static/images/mineralwater-raspberry.jpg"
+                         alt="Mineral Water Raspberry - Product Photo">
+                    <h2 class="product-name">Raspberry Mineral Water</h2>
+                </li>
+            </ul>
+        </div>
+    </section>
+</header>
+
+<footer>
+
+    <div class="bottom-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <small>&copy; 2023 ProVita. All Rights Reserved.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+</body>
+</html>

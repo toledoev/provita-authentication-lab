@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, url_for, flash, session, jsonify
-from werkzeug.utils import redirect, secure_filename
+from werkzeug.utils import redirect
 import sqlite3
 from sqlite3 import Error
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user
-import adminFunctions
 from user import User
 
 db_file = "mySQLite.db"

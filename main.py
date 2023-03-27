@@ -279,7 +279,7 @@ def searchAction():
             conn.close()
 
 
-@app.route('/addToCart/<product_name>/<int:quantity>/<total_price>')
+@app.route('/addToCart/<product_name>/<int:quantity>/<float:total_price>')
 def addToCart(product_name, quantity, total_price):
     if product_name is not None:
         item = {
@@ -312,32 +312,12 @@ def addToCart(product_name, quantity, total_price):
         flash(f"Could not find product", category='error')
 
 
-# @app.route('/viewCart/<str:product_name>/<int:quantity>')
-# def viewCart(product_name, quantity):
-#     conn = sqlite3.connect(db_file)
-#     cursor = conn.cursor()
-#     cursor.execute(
-#         "SELECT product_id, product_name, image_path, price FROM products WHERE product_name = ?", product_name)
-#     product = cursor.fetchall()
-#     print(product)
-#
-#     if product is not None:
-#         item = {
-#             'product_id': product[0][0],
-#             'name': product[0][1],
-#             'image_path': product[0][2],
-#             'price': product[0][3],
-#             'quantity': quantity
-#         }
-#         cart = session.get('cart', [])  # get the current cart from the session, or an empty list if it doesn't exist
-#         cart.append(item)  # add the new item to the cart
-#         session['cart'] = cart  # update the cart in the session
-#         flash(f"{quantity}x {product[0][1]} added to cart!", category='success')
-#         return render_template("cart.html", cart=session['cart'])
-#     else:
-#         flash(f"Could not find product", category='error')
-#     if conn:
-#         conn.close()
+@app.route('/viewCart/<product_name>/<int:quantity>/<float:total_price>')
+def viewCart(product_name, quantity):
+    # @TODO
+    # populate cart.html page with the cart info
+    # insert the cart into to orders table
+
 
 @app.route('/admin', methods=['POST'])
 def admin():

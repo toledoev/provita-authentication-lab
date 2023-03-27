@@ -1,4 +1,4 @@
-PROVITA-AUTHENTICATION
+<h1>PROVITA-AUTHENTICATION </h1>
 
 1) Install the libraries from the file: requirements.txt
 2) Run the file main.py
@@ -12,7 +12,7 @@ PROVITA-AUTHENTICATION
     b) Username: malika
     Password: password
     
-SECURE WEB PROGRAMMING
+<h2>SECURE WEB PROGRAMMING </h2>
 
 1) XSS - Scripts can be added by user input in the 'Signup' page. 
 To prevent from XSS atacks, the profile page HTML code is sanetized with regular expression

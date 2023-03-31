@@ -1,6 +1,7 @@
 <h1>PROVITA</h1>
 
-    1) Install the libraries from the file: requirements.txt
+This is an online shop website where the user can create an account and buy a range of healthy products.
+
     2) Run the file main.py
     3) The landing page is the Provita Homepage
     4) Go to Signup page to create a new account or go to Login page to login with the test users below:
@@ -15,7 +16,7 @@
 <h2>SECURE WEB PROGRAMMING </h2>
 
     1) Authentication - To prevent passwords from being reused in case of a data breach, 
-    the inputed password from the user is Hashed & Salted before been stored in the database.
+    the inputed password from the user is Hashed before been stored in the database.
 
     2) Session Management - To prevent session cookies for being reused for session hajacking attacks,
     the library session adds the secret key to make the cookie stronger at the time of login.
@@ -33,5 +34,5 @@
     b) Go to the Profile page >> View Source Page >> Confirm the script is handled as string. 
 
     4) SQL Injection - SQL injections can be added by user input in the 'Login' and 'Buy' pages. 
-    To prevent from SQL injection attacks, all queries to the database are done with prepared statements. 
+    To prevent from SQL injection attacks, all queries to the database are parameterized and done with prepared statements. 
     Therefore, incorrect parameters or arbitrary SQL code would not work to retrieve data from the database as the queries will return no results.

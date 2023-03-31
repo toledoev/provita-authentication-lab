@@ -7,7 +7,6 @@ from sqlite3 import Error
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user
 
-from adminFunctions import insertProduct
 from user import User
 
 db_file = "mySQLite.db"

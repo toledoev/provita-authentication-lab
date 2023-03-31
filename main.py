@@ -303,26 +303,32 @@ def checkout():
 def completeOrder():
     # Insert the new order into the table 'orders' in the database
     order_id = ""
+
+    
     product_name = ""
     image_path = ""
     quantity = ""
     order_date = date.today()
     username = current_user.username
 
-    if request.args.get("product_name"):
-        product_name = request.args.get("product_name")
-    if request.args.get("image"):
-        image_path = request.args.get("image")
-    if request.args.get("quantity"):
-        quantity = int(request.args.get("quantity"))
+
+    product_name = request.form.get('product_name')
+    image_path = request.form['image']
+    quantity = int(request.form['quantity'])
+
+
+    print(product_name)
+    print(image_path) 
+    print(quantity)
 
     conn = sqlite3.connect(db_file)
 
     try:
         cursor = conn.cursor()
-        myquery = "INSERT INTO orders (order_id, product_name, image_path, quantity, order_date, username) VALUES (?,?,?,?,?,?)"
+        print(order_id, product_name, image_path, quantity, order_date, username)
+        myquery = "INSERT INTO orders ( product_name, image_path, quantity, order_date, username) VALUES (?,?,?,?,?)"
         print("My query is: ", myquery)
-        cursor.execute(myquery, (order_id, product_name, image_path, quantity, order_date, username))
+        cursor.execute(myquery, (product_name, image_path, quantity, order_date, username))
         conn.commit()
     except Error as e:
         print(e)
@@ -409,5 +415,5 @@ def logout():
 if __name__ == '__main__':
     # databaseFunctions.create_database()
     # databaseFunctions.insertData()
-    # databaseFunctions.displayData()
+    databaseFunctions.displayData()
     app.run(host='127.0.0.1', port=5000, debug=True)

@@ -19,7 +19,7 @@
 
             <div class="navbar">
                 {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" id="home" href="/"> Homepage</a>
+                <a class="nav-item nav-link" id="homepage" href="/"> Homepage</a>
                 <a class="nav-item nav-link" id="profile" href="/profile">My Profile</a>
                 <a class="nav-item nav-link" id="search" href="/search">Buy</a>
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
@@ -54,9 +54,9 @@
     <tbody>
     {% for row in ordersData %}
     <tr>
-        <td align="center">{{ row[0] }}</td>
-        <td align="center">{{ row[1] }}
-        <td align="center">{{ row[2] }}</td>
+        <td align="center">{{ row[0]|e }}</td>
+        <td align="center">{{ row[1]|e}}
+        <td align="center">{{ row[2]|e}}</td>
         <td><img src="{{ row[3] }}" alt="{{ row[3] }}" width="100"></td>
         <td> €
             <script>

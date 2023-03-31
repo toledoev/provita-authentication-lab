@@ -1,6 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 
+
 from main import db_file
 
 
@@ -38,7 +39,7 @@ def create_database():
         # Create orders table
         cursor.execute("DROP TABLE IF EXISTS orders")
         table = """ CREATE TABLE orders (
-                                order_id INTEGER PRIMARY KEY ,
+                                order_id INTEGER  ,
                                 product_name VARCHAR(255) default null,
                                 image_path VARCHAR(255) default null,
                                 quantity INTEGER,
@@ -56,7 +57,6 @@ def create_database():
 
 
 def insertData():
-
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -116,7 +116,7 @@ def displayData():
         conn = sqlite3.connect(db_file)
         # cursor object
         cursor = conn.cursor()
-        data = cursor.execute(""" SELECT * FROM users; """)
+        data = cursor.execute(""" SELECT * FROM orders; """)
         # join orders on users.username=orders.username
         # join products on orders.product_name=products.product_name
 

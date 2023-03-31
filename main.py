@@ -1,17 +1,21 @@
 import os
+from datetime import date
 
-from flask import Flask, render_template, request, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, url_for, flash
 from werkzeug.utils import redirect, secure_filename
 import sqlite3
 from sqlite3 import Error
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user
 
+import databaseFunctions
 from user import User
 
 db_file = "mySQLite.db"
+UPLOAD_FOLDER = 'static/images'
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ENV'] = "Development"
 app.config['DEBUG'] = True
 
@@ -225,7 +229,6 @@ def orders():
         flash("You need to login to access the orders page.", category='error')
         return redirect(url_for('login'))
 
-    myusername = current_user.username
     conn = None
 
     try:
@@ -233,9 +236,9 @@ def orders():
         cursor = conn.cursor()
 
         # Get the orders of the User
-        myquery = "SELECT order_date, orders.product_name, quantity, orders.image_path, price FROM orders join users on orders.username = users.username join products on orders.product_name = products.product_name WHERE orders.username= ? ORDER BY order_date"
-        cursor.execute(myquery, (myusername,))
-        print("These are the user's orders: ")
+        myquery = "SELECT order_date, orders.product_name, quantity, orders.image_path, price FROM orders join users on orders.username = users.username left join products on orders.product_name = products.product_name WHERE orders.username= ? ORDER BY order_date"
+        cursor.execute(myquery, (current_user.username,))
+        # print("These are the user's orders: ")
         rows = cursor.fetchall()
 
         # Render the orders details
@@ -278,46 +281,57 @@ def searchAction():
             conn.close()
 
 
-@app.route('/addToCart/<product_name>/<int:quantity>/<float:total_price>')
-def addToCart(product_name, quantity, total_price):
-    if product_name is not None:
-        item = {
-            "name": product_name,
-            "quantity": quantity,
-            'total_price': total_price
-        }
-
-        # Add the product and quantity to the cart
-        if product_name in item:
-            item[product_name] += quantity
-        else:
-            item[product_name] = quantity
-
-        # Add the product and quantity to the cart
-        cart = session.get('cart', [])  # get the current cart from the session, or an empty list if it doesn't exist
-        cart.append(item)  # add the new item to the cart
-        session['cart'] = cart  # update the cart in the session
-
-        # Calculate the total price of all items in the cart
-        total_price = sum(item.get('price', 0) * item['quantity'] for item in cart)
-
-        # Return the updated cart information in JSON format
-        return jsonify({
-            'cart_count': len(cart),
-            'total_price': total_price
-        })
-
-    else:
-        flash(f"Could not find product", category='error')
+@app.route('/addToCart', methods=['POST'])
+def addToCart():
+    product_name = request.form['product_name']
+    image = request.form['image']
+    quantity = int(request.form['quantity'])
+    price = float(request.form['price'])
+    return redirect(url_for('checkout.html', product_name=product_name, quantity=quantity, price=price, image=image))
 
 
-@app.route('/cart/<product_name>/<int:cart_count>/<float:total_price>')
-def cart(product_name, cart_count, total_price):
-    return session['cart']
+@app.route('/checkout', methods=['GET'])
+def checkout():
+    product_name = request.args.get('product_name')
+    image = request.args.get('image')
+    quantity = request.args.get('quantity')
+    price = request.args.get('price')
+    return render_template('checkout.html', product_name=product_name, image=image, quantity=quantity, price=price)
 
 
-# populate cart.html page with the cart info
-# insert the cart into to orders table
+@app.route('/completeOrder', methods=['POST'])
+def completeOrder():
+    # Insert the new order into the table 'orders' in the database
+    order_id = ""
+    product_name = ""
+    image_path = ""
+    quantity = ""
+    order_date = date.today()
+    username = current_user.username
+
+    if request.args.get("product_name"):
+        product_name = request.args.get("product_name")
+    if request.args.get("image"):
+        image_path = request.args.get("image")
+    if request.args.get("quantity"):
+        quantity = int(request.args.get("quantity"))
+
+    conn = sqlite3.connect(db_file)
+
+    try:
+        cursor = conn.cursor()
+        myquery = "INSERT INTO orders (order_id, product_name, image_path, quantity, order_date, username) VALUES (?,?,?,?,?,?)"
+        print("My query is: ", myquery)
+        cursor.execute(myquery, (order_id, product_name, image_path, quantity, order_date, username))
+        conn.commit()
+    except Error as e:
+        print(e)
+        flash("Error. Order failed. ", category='error')
+    finally:
+        if conn:
+            conn.close()
+    flash("Order placed successfully!", category='success')
+    return redirect(url_for('checkout'))
 
 
 @app.route('/admin')
@@ -333,32 +347,29 @@ def admin():
 
 @app.route('/addProduct', methods=['POST'])
 def addProduct():
-    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+    # Only the below files types are accepted
+    ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
     def allowed_file(filename):
         return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-    # UPLOAD_FOLDER = os.path.join('static', 'images')
-    UPLOAD_FOLDER = os.path.join('/static/images')
-
+    # Upload the image to the project folder
     if request.method == 'POST':
-        # Upload the image file
-        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
         if file and allowed_file(file.filename):
-            image_path = os.path.join(app.config[UPLOAD_FOLDER], secure_filename(file.filename))
+            image_path = os.path.join(os.path.join(app.config['UPLOAD_FOLDER']), secure_filename(file.filename))
             file.save(image_path)
             print(image_path)
             flash("File uploaded successfully", category='success')
 
-    # Create a new product and insert into the table products in the database
+    # Insert the new product into the table products in the database
     product_id = ""
     product_name = ""
-    image_path = ""
+    image_path = image_path
     price = ""
 
     if request.form.get("product_id"):
@@ -378,19 +389,14 @@ def addProduct():
         print("My query is: ", myquery)
         cursor.execute(myquery, (product_id, product_name, image_path, price))
         conn.commit()
-        ## if this works, this means the user have been added successfully
-        ## Therefore, we need to send them to the login page
     except Error as e:
         print(e)
-        ## if the user is not added, we will get an exception which will be caught here
-        ## So we need to say what to do if the user signup has failed and send them to the signup page again
         flash("Error. Product not added. ", category='error')
-        return redirect(url_for('admin'))
     finally:
         if conn:
             conn.close()
     flash("Product added successfully!", category='success')
-    return redirect(url_for('home'))
+    return redirect(url_for('admin'))
 
 
 @app.route('/logout')
@@ -401,5 +407,7 @@ def logout():
 
 
 if __name__ == '__main__':
-    # displayData()
-    app.run(host='127.0.0.1', port=4444, debug=True)
+    # databaseFunctions.create_database()
+    # databaseFunctions.insertData()
+    # databaseFunctions.displayData()
+    app.run(host='127.0.0.1', port=5000, debug=True)

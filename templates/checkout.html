@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProVita</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </head>
@@ -23,6 +24,7 @@
                 <a class="nav-item nav-link" id="homepage" href="/"> Homepage</a>
                 <a class="nav-item nav-link" id="profile" href="/profile">My Profile</a>
                 <a class="nav-item nav-link" href="/orders" id="orders">My Orders</a>
+                <a class="nav-item nav-link" id="search" href="/search">Buy</a>
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
                 <a class="nav-item nav-link" id="admin" href="/admin">Admin Only</a>
                 {% else %}
@@ -35,74 +37,69 @@
     </nav>
 </header>
 
-<section id="search" class="section">
+<section id="checkout" class="section">
     <header class="imageheader"></header>
     <div class="container">
-        <h2 class="headline">Search Products</h2>
+        <h2 class="headline">Checkout</h2>
 
-        <form action="searchAction" method="get">
-            <label class="card-title">Search your product</label>
-            <input type="search" name="searchString" id="searchString">
-            <input type="submit" value="Search">
-        </form>
+        <table>
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price €</th>
+                <th>Total €</th>
+                <th></th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td id= "product_name">{{ product_name|e }}</td>
+                <td id= "image"><img src="{{ image }}" alt="{{ image }}" width="150"></td>
+                <td id= "quantity">{{ quantity|e }}</td>
+                <td id= "price">{{ price|e }}</td>
+                <td>
+                    <script>
+                         document.write({{ quantity }} * {{ price }})
+                    </script>
+                </td>
+                <td>
+                    <form action="/completeOrder" method="POST"><button type="submit">Complete order</button></form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
-<br/>
-<br/>
 
-
-<section id="addToCart" class="section">
-    <div class="container">
-        <h2 class="headline">Select Products</h2>
-
-    <table>
-        <thead>
-        <tr>
-            <th>Product</th>
-            <th>Image</th>
-            <th>Price €</th>
-            <th>Quantity</th>
-            <th></th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for row in products %}
-        <tr>
-            <td>{{ row[1] |e}}</td>
-            <td><img src="{{ row[2] }}" alt="{{ row[2] }}" width="150"></td>
-            <td>{{ row[3] |e}}</td>
-            <td>
-                <select name="quantity">
-					<option value="1"> 1</option>
-					<option value="2"> 2</option>
-                    <option value="3"> 3</option>
-                    <option value="4"> 4</option>
-                </select>
-            <td>
-                <button onclick="sendData(this)">Add to Cart</button>
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
- </div>
-
-</section>
 
 <script>
 function sendData(button) {
  var row = button.parentNode.parentNode;
   var productName = row.cells[0].innerText;
   var image = row.cells[1].querySelector("img").getAttribute("src");
-  var quantity = row.cells[3].querySelector("select[name='quantity']").value;
-  var price = row.cells[2].innerText;
-  var url = "{{ url_for('checkout') }}?product_name=" + encodeURIComponent(productName) + "&image=" + encodeURIComponent(image) + "&price=" + encodeURIComponent(price) + "&quantity=" + encodeURIComponent(quantity);
+  var quantity = row.cells[2].innerText;
+  var price = row.cells[3].innerText;
+  var url = "{{ url_for('completeOrder') }}?product_name=" + encodeURIComponent(productName) + "&image=" + encodeURIComponent(image) + "&price=" + encodeURIComponent(price) + "&quantity=" + encodeURIComponent(quantity);
   window.location.href = url;
 }
 </script>
-</section>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
 
 <footer>
     <div class="container">
@@ -125,6 +122,7 @@ function sendData(button) {
     </div>
 
 </footer>
+
 
 </body>
 </html>

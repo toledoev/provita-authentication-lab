@@ -39,7 +39,7 @@ def create_database():
         # Create orders table
         cursor.execute("DROP TABLE IF EXISTS orders")
         table = """ CREATE TABLE orders (
-                                order_id INTEGER  ,
+                                order_id INTEGER PRIMARY KEY AUTOINCREMENT  ,
                                 product_name VARCHAR(255) default null,
                                 image_path VARCHAR(255) default null,
                                 quantity INTEGER,

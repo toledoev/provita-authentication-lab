@@ -56,7 +56,7 @@
             </thead>
             <tbody>
             <tr>
-                <td id= "product_name">{{ product_name|e }}</td>
+                <td id= "product_name" value="{{ product_name|e }}">{{ product_name|e }}</td>
                 <td id= "image"><img src="{{ image }}" alt="{{ image }}" width="150"></td>
                 <td id= "quantity">{{ quantity|e }}</td>
                 <td id= "price">{{ price|e }}</td>
@@ -66,7 +66,12 @@
                     </script>
                 </td>
                 <td>
-                    <form action="/completeOrder" method="POST"><button type="submit">Complete order</button></form>
+                    <form action="/completeOrder" method="POST">
+                        <input type="hidden" name="product_name" value={{ product_name|e }}>
+                        <input type="hidden" name="image" value={{ image|e }}>
+                        <input type="hidden" name= "quantity" value={{ quantity|e }}>
+                        <button type="submit">Complete order</button>
+                    </form>
                 </td>
             </tr>
             </tbody>

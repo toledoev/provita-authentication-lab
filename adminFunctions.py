@@ -2,14 +2,11 @@ import os
 import sqlite3
 from sqlite3 import Error
 
-from flask import request, flash, redirect, url_for
+from flask import request, flash, redirect, url_for, app
 from werkzeug.utils import secure_filename
-
-from main import app
 
 UPLOAD_FOLDER = os.path.join('static', 'images')
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-folder_path = ""
 
 
 def allowed_file(filename):
@@ -27,12 +24,12 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            folder_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            print(folder_path)
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(image_path)
             flash("File uploaded successfully", category='success')
 
 
-def addProduct():
+def insertProduct():
     # Create a new product and insert into the table products in the database
     # Upload the image file
     product_id = ""
@@ -45,11 +42,10 @@ def addProduct():
     if request.form.get("product_name"):
         product_name = request.form.get("product_name")
     if request.form.get("image"):
-        image_path = folder_path
+        image_path = image_path
     if request.form.get("price"):
         price = float(request.form.get("price"))
 
-    db_file = "mySQLite.db"
     conn = sqlite3.connect(db_file)
 
     try:

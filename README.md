@@ -21,13 +21,13 @@ This is an online shop website where users can create an account and buy a range
 
 2. Session Management - To prevent session cookies for being reused for session hajacking attacks, the library `session` adds the secret key to make the cookie stronger at the time of login. Another security measure, a logout option is provided to the user to terminate the session.
 
-3. XSS - Scripts can be added by user input in the 'Signup' page. To prevent from XSS atacks, the 'Profile' HTML code is sanetized with regular expression that transforms javascript code into string so the script code won't run.
+3. XSS - Scripts can be added by user input in the 'Signup' page. To prevent from XSS atacks, the 'Profile' HTML code is sanetized with regular expression that transforms javascript code into string so the script code won't run.<br>
 
-    To test for XSS attack:
+    **To test for XSS attack:**
     
-    a) Use the below credentials to login:
-    - Username: `<script>alert(‘XSS’)</script>`
-   -  Password: `<script>alert(‘XSS’)</script>`
-    b) Go to the Profile page >> View Source Page >> Confirm the script is handled as string. 
+   1. Use the below credentials to login:<br>
+          - Username: `<script>alert(‘XSS’)</script>`<br>
+          - Password: `<script>alert(‘XSS’)</script>` <br>
+   2. Go to the Profile page >> View Source Page >> Confirm the script is handled as string. 
 
 4. SQL Injection - SQL injections can be added by user input in the 'Login' and 'Buy' pages. To prevent from SQL injection attacks, all queries to the database are parameterized and done with prepared statements. Therefore, incorrect parameters or arbitrary SQL code would not work to retrieve data from the database as the queries will return no results.

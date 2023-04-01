@@ -86,19 +86,6 @@ def insertData():
             (18, 'vitamin-multi', 'static/images/vitamin-multi.jpg', 19.99)
             ; """)
 
-        cursor.execute(""" INSERT INTO orders (order_id, product_name, image_path, quantity, order_date, username) VALUES
-            (1, 'mineralwater-blueberry', 'static/images/mineralwater-blueberry.jpg', 2, '2022-03-07', 'alex'),
-            (2, 'mineralwater-lemonlime', 'static/images/mineralwater-lemonlime.jpg', 3,  '2022-06-01', 'alex'),
-            (3, 'mineralwater-blueberry', 'static/images/mineralwater-blueberry.jpg', 2, '2022-10-23', 'alex'),
-            (4, 'vitamin-bcomplex', 'static/images/vitamin-bcomplex.jpg', 1,  '2022-12-02', 'malika'),
-            (5, 'proteinbar-peanutbutter', 'static/images/proteinbar-peanutbutter.jpg', 3,  '2022-07-15', 'charles'),
-            (6, 'mineralwater-blueberry', 'static/images/mineralwater-blueberry.jpg', 2, '2022-03-07', 'malika'),
-            (7, 'mineralwater-lemonlime', 'static/images/mineralwater-lemonlime.jpg', 4, '2022-06-01', 'charles'),
-            (8, 'mineralwater-blueberry', 'static/images/mineralwater-blueberry.jpg', 2, '2022-10-23', 'malika'),
-            (9, 'vitamin-a', 'static/images/vitamin-bcomplex.jpg', 1,  '2022-12-02', 'charles'),
-            (10, 'proteinbar-lemon', 'static/images/proteinbar-lemon.jpg', 3,  '2022-07-15', 'charles')
-            ; """)
-
         # persist the changes
         conn.commit()
 

@@ -39,7 +39,6 @@
     <header class="imageheader"></header>
     <div class="container">
         <h2 class="headline">Search Products</h2>
-
         <form action="searchAction" method="get">
             <label class="card-title">Search your product</label>
             <input type="search" name="searchString" id="searchString">
@@ -47,14 +46,10 @@
         </form>
     </div>
 </section>
-<br/>
-<br/>
-
 
 <section id="addToCart" class="section">
     <div class="container">
         <h2 class="headline">Select Products</h2>
-
     <table>
         <thead>
         <tr>
@@ -86,11 +81,10 @@
         {% endfor %}
         </tbody>
     </table>
-
  </div>
-
 </section>
 
+<!-- JavaScript to send the selected product data to "checkout.html" when the button is clicked-->
 <script>
 function sendData(button) {
  var row = button.parentNode.parentNode;

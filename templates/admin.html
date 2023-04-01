@@ -18,6 +18,7 @@
             </div>
             <div class="navbar">
                 <a class="nav-item nav-link" id="homepage" href="/"> Homepage</a>
+                <a class="nav-item nav-link" id="search" href="/search"> Search</a>
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             </div>
         </div>
@@ -29,7 +30,6 @@
         <h2 class="headline">Add Product</h2>
 
         <form action="/addProduct" method="post" enctype="multipart/form-data">
-            <label>Product ID (Must be unique) </label> <input type="text" name="product_id" id="product_id"><br/>
             <label>Product Name (separate words with a dash '-' )</label> <input type="text" name="product_name" id="product_name"><br/>
             <label>Upload an image</label> <input type="file" name="file" id="file"><br/>
             <label>Set price</label> <input type="text" name="price" id="price"><br/>

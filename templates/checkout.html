@@ -24,7 +24,7 @@
                 <a class="nav-item nav-link" id="homepage" href="/"> Homepage</a>
                 <a class="nav-item nav-link" id="profile" href="/profile">My Profile</a>
                 <a class="nav-item nav-link" href="/orders" id="orders">My Orders</a>
-                <a class="nav-item nav-link" id="search" href="/search">Buy</a>
+                <a class="nav-item nav-link" id="search" href="/search">Shop</a>
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
                 <a class="nav-item nav-link" id="admin" href="/admin">Admin Only</a>
                 {% else %}
@@ -69,7 +69,8 @@
                     <form action="/completeOrder" method="POST">
                         <input type="hidden" name="product_name" value={{ product_name|e }}>
                         <input type="hidden" name="image" value={{ image|e }}>
-                        <input type="hidden" name= "quantity" value={{ quantity|e }}>
+                        <input type="hidden" name="quantity" value={{ quantity|e }}>
+                        <input type="hidden" name="price" value={{ price|e }}>
                         <button type="submit">Complete order</button>
                     </form>
                 </td>
@@ -78,19 +79,6 @@
         </table>
     </div>
 </section>
-
-
-<script>
-function sendData(button) {
- var row = button.parentNode.parentNode;
-  var productName = row.cells[0].innerText;
-  var image = row.cells[1].querySelector("img").getAttribute("src");
-  var quantity = row.cells[2].innerText;
-  var price = row.cells[3].innerText;
-  var url = "{{ url_for('completeOrder') }}?product_name=" + encodeURIComponent(productName) + "&image=" + encodeURIComponent(image) + "&price=" + encodeURIComponent(price) + "&quantity=" + encodeURIComponent(quantity);
-  window.location.href = url;
-}
-</script>
 
 
 {% with messages = get_flashed_messages(with_categories=true) %}

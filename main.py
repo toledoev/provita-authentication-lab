@@ -67,7 +67,7 @@ def signupAction():
         ## This password is a normal string
         ## Therefore, we need to hash it before we put it in the database
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        print("True Password:", password, ", Hashed Password:", hashed_password)
+        # print("True Password:", password, ", Hashed Password:", hashed_password)
         password = hashed_password
 
     if request.form.get("email"):
@@ -96,7 +96,7 @@ def signupAction():
             return redirect(url_for('signup'))
 
         myquery = "INSERT INTO users (username, password, email, first_name, last_name, age, activity) VALUES (?,?,?,?,?,?,?)"
-        print("My query is: ", myquery)
+        # print("My query is: ", myquery)
         cursor.execute(myquery, (username, password, email, first_name, last_name, age, activity))
         conn.commit()
         ## if this works, this means the user have been added successfully
@@ -287,7 +287,7 @@ def addToCart():
     image = request.form['image']
     quantity = int(request.form['quantity'])
     price = float(request.form['price'])
-    return redirect(url_for('checkout.html', product_name=product_name, quantity=quantity, price=price, image=image))
+    return redirect(url_for('checkout', product_name=product_name, quantity=quantity, price=price, image=image))
 
 
 @app.route('/checkout', methods=['GET'])
@@ -302,32 +302,25 @@ def checkout():
 @app.route('/completeOrder', methods=['POST'])
 def completeOrder():
     # Insert the new order into the table 'orders' in the database
-    order_id = ""
-
-    
-    product_name = ""
-    image_path = ""
-    quantity = ""
-    order_date = date.today()
-    username = current_user.username
-
-
     product_name = request.form.get('product_name')
     image_path = request.form['image']
     quantity = int(request.form['quantity'])
+    price = float(request.form['price'])
+    order_date = date.today()
+    username = current_user.username
 
-
-    print(product_name)
-    print(image_path) 
-    print(quantity)
+    # print(product_name)
+    # print(image_path)
+    # print(quantity)
+    # print(price)
 
     conn = sqlite3.connect(db_file)
 
     try:
         cursor = conn.cursor()
-        print(order_id, product_name, image_path, quantity, order_date, username)
+        # print(product_name, image_path, quantity, order_date, username)
         myquery = "INSERT INTO orders ( product_name, image_path, quantity, order_date, username) VALUES (?,?,?,?,?)"
-        print("My query is: ", myquery)
+        # print("My query is: ", myquery)
         cursor.execute(myquery, (product_name, image_path, quantity, order_date, username))
         conn.commit()
     except Error as e:
@@ -337,7 +330,7 @@ def completeOrder():
         if conn:
             conn.close()
     flash("Order placed successfully!", category='success')
-    return redirect(url_for('checkout'))
+    return redirect(url_for('checkout', product_name=product_name, quantity=quantity, price=price, image=image_path))
 
 
 @app.route('/admin')
@@ -369,17 +362,14 @@ def addProduct():
         if file and allowed_file(file.filename):
             image_path = os.path.join(os.path.join(app.config['UPLOAD_FOLDER']), secure_filename(file.filename))
             file.save(image_path)
-            print(image_path)
+            print("Image path" + image_path)
             flash("File uploaded successfully", category='success')
 
     # Insert the new product into the table products in the database
-    product_id = ""
     product_name = ""
-    image_path = image_path
+    image_path = "image_path"
     price = ""
 
-    if request.form.get("product_id"):
-        product_id = int(request.form.get("product_id"))
     if request.form.get("product_name"):
         product_name = request.form.get("product_name")
     if request.form.get("image"):
@@ -391,9 +381,9 @@ def addProduct():
 
     try:
         cursor = conn.cursor()
-        myquery = "INSERT INTO products (product_id, product_name, image_path, price) VALUES (?,?,?,?)"
-        print("My query is: ", myquery)
-        cursor.execute(myquery, (product_id, product_name, image_path, price))
+        myquery = "INSERT INTO products (product_name, image_path, price) VALUES (?,?,?)"
+        print("New product added to database: ", myquery)
+        cursor.execute(myquery, (product_name, image_path, price))
         conn.commit()
     except Error as e:
         print(e)
@@ -413,7 +403,7 @@ def logout():
 
 
 if __name__ == '__main__':
-    # databaseFunctions.create_database()
-    # databaseFunctions.insertData()
-    databaseFunctions.displayData()
+    # databaseFunctions.create_database()  # Creates "users", "products" and "orders" tables
+    # databaseFunctions.insertData()  # Inserts data into "users" and "products" tables
+    # databaseFunctions.displayData()  # Displays orders data
     app.run(host='127.0.0.1', port=5000, debug=True)

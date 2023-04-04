@@ -27,7 +27,7 @@
                 {% else %}
                 <a class="nav-item nav-link" id="login" href="/login">Login</a>
                 <a class="nav-item nav-link" id="signup" href="/signup">Sign Up</a>
-                <a href="http://www.linkedin.com">LinkedIn</a>
+                <a href="https://www.linkedin.com/provita?_l=en_US">LinkedIn</a>
                 {% endif %}
             </div>
         </div>
@@ -39,7 +39,8 @@
         <h2 class="headline">Profile: {{ first_name|e }} </h2>
     </div>
 </section>
-
+<!--Encoding data output: By adding the '|e' to escape the user created values. -->
+<!--This way the user inputs will be considered text by the browser-->
 <table style="margin-left: 20px;">
     <tr>
         <th>First Name</th>

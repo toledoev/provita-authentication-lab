@@ -9,6 +9,19 @@
 </head>
 <body>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 <header id="home" class="header">
     <nav class="nav" role="navigation">
         <div class="container nav-elements">
@@ -28,7 +41,7 @@
                 {% else %}
                 <a class="nav-item nav-link" id="login" href="/login">Login</a>
                 <a class="nav-item nav-link" id="signup" href="/signup">Sign Up</a>
-                <a href="http://www.linkedin.com">LinkedIn</a>
+                <a href="https://www.linkedin.com/provita?_l=en_US">LinkedIn</a>
                 {% endif %}
             </div>
         </div>

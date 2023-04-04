@@ -28,7 +28,7 @@
                 {% else %}
                 <a class="nav-item nav-link" id="login" href="/login">Login</a>
                 <a class="nav-item nav-link" id="signup" href="/signup">Sign Up</a>
-                <a href="http://www.linkedin.com">LinkedIn</a>
+                <a href="https://www.linkedin.com/provita?_l=en_US">LinkedIn</a>
                 {% endif %}
             </div>
         </div>
@@ -49,7 +49,10 @@
 
 <section id="addToCart" class="section">
     <div class="container">
-        <h2 class="headline">Select Products</h2>
+<!--        Return the result of the search-->
+        <h2 class="headline">Search Results</h2>
+<!--        Return the search input-->
+        <p> Search Input: {{ searchInput|e }} </p>
     <table>
         <thead>
         <tr>
@@ -64,6 +67,8 @@
         <tbody>
         {% for row in products %}
         <tr>
+            <!--Encoding data output: By adding the '|e' to escape the user created values. -->
+            <!--This way the user inputs will be considered text by the browser-->
             <td>{{ row[1] |e}}</td>
             <td><img src="{{ row[2] }}" alt="{{ row[2] }}" width="150"></td>
             <td>{{ row[3] |e}}</td>

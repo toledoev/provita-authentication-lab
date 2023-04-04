@@ -30,7 +30,7 @@
                 {% else %}
                 <a class="nav-item nav-link" id="login" href="/login">Login</a>
                 <a class="nav-item nav-link" id="signup" href="/signup">Sign Up</a>
-                <a href="http://www.linkedin.com">LinkedIn</a>
+                <a href="https://www.linkedin.com/provita?_l=en_US">LinkedIn</a>
                 {% endif %}
             </div>
         </div>
@@ -56,6 +56,8 @@
             </thead>
             <tbody>
             <tr>
+            <!--Encoding data output: By adding the '|e' to escape the user created values. -->
+            <!--This way the user inputs will be considered text by the browser-->
                 <td id= "product_name" value="{{ product_name|e }}">{{ product_name|e }}</td>
                 <td id= "image"><img src="{{ image }}" alt="{{ image }}" width="150"></td>
                 <td id= "quantity">{{ quantity|e }}</td>

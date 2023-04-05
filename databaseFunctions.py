@@ -21,6 +21,7 @@ def create_database():
                             email VARCHAR(50) NOT NULL,
                             first_name CHAR(50) default null,
                             last_name CHAR(50) default null,
+                            zipcode VARCHAR(25) default null,
                             age INTEGER default null,
                             activity VARCHAR(50) default null
                                 ); """
@@ -61,8 +62,8 @@ def insertData():
     try:
         conn = sqlite3.connect(db_file)
         cursor = conn.cursor()
-        cursor.execute(""" INSERT INTO users (username, password, email, first_name, last_name, age, activity) VALUES
-            ('admin', '$2b$12$OT9GEFU7ekEcJlFtzXaF9erl6VAweaLh9u8aroAMGO//cD05ZLqiG', 'admin@email.com', 'admin', 'admin', 0, '')
+        cursor.execute(""" INSERT INTO users (username, password, email, first_name, last_name, zipcode, age, activity) VALUES
+            ('admin', '$2b$12$OT9GEFU7ekEcJlFtzXaF9erl6VAweaLh9u8aroAMGO//cD05ZLqiG', 'admin@email.com', 'admin', 'admin','', 0, '')
             ; """)
 
         cursor.execute(""" INSERT INTO products (product_id, product_name, image_path, price) VALUES
@@ -103,7 +104,7 @@ def displayData():
         conn = sqlite3.connect(db_file)
         # cursor object
         cursor = conn.cursor()
-        data = cursor.execute(""" SELECT * FROM orders; """)
+        data = cursor.execute(""" SELECT * FROM users; """)
         # join orders on users.username=orders.username
         # join products on orders.product_name=products.product_name
 

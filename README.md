@@ -5,9 +5,9 @@ This is an online shop website where users can create an account and buy a range
 ## Getting Started
 
 1. Make sure to install all the required libraries from the file: `requirements.txt`
-2. In `main.py`, un-comment the funtions `databaseFunctions.create_database()` & `databaseFunctions.insertData()` `(Lines 444, 445, and 446) `
+2. In `main.py`, un-comment the funtions `databaseFunctions.create_database()` & `databaseFunctions.insertData()` to restart the database
 & Run the file `main.py`
-3. Re-comment the same lines again `(Lines 444, 445, and 446)` 
+3. Re-comment the same lines again `(Lines 444 and 445)` 
 4. Run the file `main.py` again and go to the browser
 5. The landing page is the Provita Homepage
 6. Go to `Signup` to create a new account then complete the Login. OR go to `Login` page to log in as the `admin` (Has access to the Admin page):

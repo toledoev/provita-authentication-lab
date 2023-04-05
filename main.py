@@ -58,6 +58,7 @@ def signupAction():
     email = ""
     first_name = ""
     last_name = ""
+    zipcode = ""
     age = ""
     activity = ""
 
@@ -78,6 +79,8 @@ def signupAction():
         first_name = request.form.get("first_name")
     if request.form.get("last_name"):
         last_name = request.form.get("last_name")
+    if request.form.get("zipcode"):
+        zipcode = request.form.get("zipcode")
     if request.form.get("age"):
         age = request.form.get("age")
     if request.form.get("activity"):
@@ -100,9 +103,9 @@ def signupAction():
             return redirect(url_for('signup'))
         # Insert user to the database
         # Query Paramiterisation
-        myquery = "INSERT INTO users (username, password, email, first_name, last_name, age, activity) VALUES (?,?,?,?,?,?,?)"
+        myquery = "INSERT INTO users (username, password, email, first_name, last_name, zipcode, age, activity) VALUES (?,?,?,?,?,?,?,?)"
         # print("My query is: ", myquery)
-        cursor.execute(myquery, (username, password, email, first_name, last_name, age, activity))
+        cursor.execute(myquery, (username, password, email, first_name, last_name, zipcode, age, activity))
         conn.commit()
 
     except Error as e:
@@ -194,6 +197,7 @@ def profile():
     myfname = ""
     mylname = ""
     myage = ""
+    myzipcode = ""
     myactivity = ""
 
     conn = None
@@ -203,7 +207,7 @@ def profile():
 
         # Read the data from the database of the user current logged in
         # Query Paramiterisation
-        myquery = "SELECT email, first_name, last_name, age, activity FROM users WHERE username=?"
+        myquery = "SELECT email, first_name, last_name, zipcode, age, activity FROM users WHERE username=?"
         dataUser = cursor.execute(myquery, (myusername,))
         print("These are the details of the user: ")
         rows = []
@@ -214,8 +218,9 @@ def profile():
             myemail = rows[0][0]
             myfname = rows[0][1]
             mylname = rows[0][2]
-            myage = rows[0][3]
-            myactivity = rows[0][4]
+            myzipcode = rows[0][3]
+            myage = rows[0][4]
+            myactivity = rows[0][5]
 
         else:
             return "Error: the username does not exist"
@@ -227,7 +232,7 @@ def profile():
             conn.close()
     # Render the user details. The profile.html page the output is encoded to prevent XSS attacks.
     return render_template("profile.html", username=myusername, email=myemail, first_name=myfname, last_name=mylname,
-                           age=myage, activity=myactivity)
+                           myzipcode=myzipcode, age=myage, activity=myactivity)
 
 
 @app.route('/orders', methods=['GET'])

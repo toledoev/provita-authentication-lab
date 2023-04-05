@@ -9,18 +9,26 @@
 </head>
 <body>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+<div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category  }} mt-3 alert-dismissible" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=delete_flash(this)>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        </div>
       </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+    </div>
 
 <header id="home" class="header">
     <nav class="nav" role="navigation">
@@ -61,7 +69,7 @@
 
 
             <ul class="product-list">
-                <em>Vitamin Complex</em>
+                <em>Vitamin Complexes</em>
                 <p>Our high-quality vitamin complexes are designed to help you maintain optimal health and wellness.
                     It's packed with <em>essential vitamins and minerals</em> that support a healthy immune system,
                     strong bones and

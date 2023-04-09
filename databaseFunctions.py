@@ -67,12 +67,12 @@ def insertData():
             ; """)
 
         cursor.execute(""" INSERT INTO products (product_id, product_name, image_path, price) VALUES
-            (1, 'mineralwater-blueberry', 'static/images/mineralwater-blueberry.jpg', 2.90),
-            (2, 'mineralwater-lemonlime', 'static/images/mineralwater-lemonlime.jpg', 2.90),
-            (3, 'mineralwater-orange', 'static/images/mineralwater-orange.jpg', 2.90),
-            (4, 'mineralwater-peach', 'static/images/mineralwater-peach.jpg', 2.90),
-            (5, 'mineralwater-raspberry', 'static/images/mineralwater-raspberry.jpg', 2.90),
-            (6, 'mineralwater-strawberry', 'static/images/mineralwater-strawberry.jpg', 2.90),
+            (1, 'mineralwater-blueberry', 'static/images/mineralwater-blueberry.jpg', 2.99),
+            (2, 'mineralwater-lemonlime', 'static/images/mineralwater-lemonlime.jpg', 2.99),
+            (3, 'mineralwater-orange', 'static/images/mineralwater-orange.jpg', 2.99),
+            (4, 'mineralwater-peach', 'static/images/mineralwater-peach.jpg', 2.99),
+            (5, 'mineralwater-raspberry', 'static/images/mineralwater-raspberry.jpg', 2.99),
+            (6, 'mineralwater-strawberry', 'static/images/mineralwater-strawberry.jpg', 2.99),
             (7, 'proteinbar-chocolate', 'static/images/proteinbar-chocolate.jpg', 1.99),
             (8, 'proteinbar-lemon', 'static/images/proteinbar-lemon.jpg', 1.99),
             (9, 'proteinbar-peanutbutter', 'static/images/proteinbar-peanutbutter.jpg', 1.99),

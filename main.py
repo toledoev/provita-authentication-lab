@@ -450,4 +450,4 @@ if __name__ == '__main__':
     # databaseFunctions.create_database()  # Creates the "mySQLite" database & the "users", "products" and "orders" tables
     # databaseFunctions.insertData()  # Inserts data into "users" and "products" tables
     # databaseFunctions.displayData()  # Displays orders data
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=5001, debug=True)

@@ -5,29 +5,27 @@ This is an online shop website where users can create an account and buy a range
 ## Getting Started
 
 1. Make sure to install all the required libraries from the file: `requirements.txt`
-2. In `main.py`, un-comment the funtions `databaseFunctions.create_database()` & `databaseFunctions.insertData()` to restart the database
-& Run the file `main.py`
-3. Re-comment the same lines again `(Lines 444 and 445)` 
-4. Run the file `main.py` again and go to the browser
-5. The landing page is the Provita Homepage
-6. Go to `Signup` to create a new account then complete the Login. OR go to `Login` page to log in as the `admin` (Has access to the Admin page):
+2. To reset the database: Go to the `main.py` file, un-comment the funtions `databaseFunctions.create_database()` & `databaseFunctions.insertData()` (Lines 450 & 451) & Run the file `main.py`
+3. To run the app go to `main.py` file
+4. The website landing page is the Provita Homepage
+5. Go to `Signup` to create a new account then complete the Login. OR go to `Login` page to log in as the `admin` (Has access to the Admin page):
 
     - Username: `admin`
     - Password: `password`
    
-7. Go to `My Profile` to display the current logged-in user's details
-8. Go to `My Orders` to display the current logged-in user's orders (if any)
-9. Go to `Shop` to search for products and add products to cart
-10. If the user choses to add products to cart, the user will be redirected to the `Checkout` page to complete the order.
-11. If the current logged-in user is the `admin`, go to `Admin` to add a new product to the database
+6. Go to `My Profile` to display the current logged-in user's details
+7. Go to `My Orders` to display the current logged-in user's orders (if any)
+8. Go to `Shop` to search for products and add products to cart
+9. If the user choses to add products to cart, the user will be redirected to the `Checkout` page to complete the order.
+10. If the current logged-in user is the `admin`, go to `Admin` to add a new product to the database
     - Product Name: mineralwater-watermelon-raspberry
-    - Upload an image: Chose the image `water-watermelon-raspberry` (make sure to save image provided in your computer)
-    - Set Price: 2.90
+    - Upload an image: Chose the image `water-watermelon-raspberry` (make sure to save the image provided in your computer)
+    - Set Price: 2.99
     - And click on Submit
     - Go to `Shop` and search for water to confirm the new product was added to the database
     
-12. Go to `Logout` to log out from the website
-13. Go to `LinkedIn` to be redirected to the Social Media page ( There is no ProVita profile)
+11. Go to `Logout` to log out from the website
+12. Go to `LinkedIn` to be redirected to the Social Media page ( There is no ProVita profile)
 
 ## Secure Web Programming
 

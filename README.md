@@ -29,12 +29,21 @@ This is an online shop website where users can create an account and buy a range
 
 ## Secure Web Programming
 
-1. Authentication - To prevent passwords from being reused in case of a data breach, the password is `Hashed` before been stored in the database.
 
-2. Session Management - To prevent session cookies for being reused for session hijacking attacks, the library `session` adds the secret key to make the cookie stronger at the time of login. 
+1. Password Management
+   1. Strong Password: the user must create a password with minimum 8 characters, which is enforced in the html code. 
+   2. To prevent passwords from being reused in case of a data breach, the password is hashed with the library Bcrypt before creating a new user and user data being stored in the database.
+
+2. Authentication  
+   1. Before the user can access the website resources, it must create an account and login. 
+   2. Usernames are unique to prevent user from accessing incorrect account. 
+   3. During login, the user goes through an authentication process to verify the credentials to confirm the user’s identity 
+   and ensure that the username and password are valid by using Bcrypt and flask_login libraries.
+   
+3. Session Management - To prevent session cookies for being reused for session hijacking attacks, the library `session` adds the secret key to make the cookie stronger at the time of login. 
 Another security measure, a logout option is provided to the user to terminate the session.
 
-3. XSS - Scripts can be added by user input in the `Signup` page. 
+4. XSS - Scripts can be added by user input in the `Signup` page. 
 To prevent XSS attacks to display malicious scripts in HTML pages that read data from the database, the `Profile` HTML code is `encoded` which transforms JavasScript code into text, so the script code won't run.<br>
 
     **To test for XSS attack:**
@@ -44,7 +53,7 @@ To prevent XSS attacks to display malicious scripts in HTML pages that read data
           - Password: `<script>alert(‘XSS’)</script>` <br>
    2. Go to `My Profile` page >> View Source Page >> Confirm the script is handled as string. 
 
-4. SQL Injection - SQL injections can be added by user input in the `Login` and `Shop` pages (and by the admin input in the `Admin` page). 
+5. SQL Injection - SQL injections can be added by user input in the `Login` and `Shop` pages (and by the admin input in the `Admin` page). 
 To prevent from SQL injection attacks, all queries to the database are `parameterized` and done with prepared statements. 
 Therefore, incorrect parameters or arbitrary SQL code would not work to retrieve data from the database as the queries will return no results.
 
